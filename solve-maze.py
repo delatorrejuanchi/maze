@@ -14,44 +14,6 @@ def neighbors(row, col):
     return [(row, col - 1), (row - 1, col), (row, col + 1), (row + 1, col)]
 
 
-# @timeit
-# def solve_maze_queue(maze):
-#     queue = [((0, 0), 0)]
-#     i = 0
-#     done = False
-
-#     while not done and len(queue):
-#         referrer = queue[i][1]
-#         row, col = queue[i][0]
-
-#         if row == -1 or row == len(maze) or col == -1 or col == len(maze[0]):
-#             pass  # print("Out of bounds at ({0}, {1})".format(row, col))
-#         elif maze[row][col] == -1:
-#             pass  # print("visited at ({0}, {1})".format(row, col))
-#         elif maze[row][col] == 0:
-#             # print("visiting ({0}, {1})".format(row, col))
-#             maze[row][col] = -1
-
-#             for neighbor in neighbors(row, col):
-#                 queue.append((neighbor, i))
-#         elif maze[row][col] == 1:
-#             pass  # print("wall at ({0}, {1})".format(row, col))
-#         elif maze[row][col] == 2:
-#             # print("goal at ({0}, {1})".format(row, col))
-#             queue.append(((row, col), referrer))
-#             done = True
-#             i -= 1
-
-#         i += 1
-
-#     steps = []
-#     while i != 0:
-#         steps.append(queue[i][0])
-#         i = queue[i][1]
-
-#     return steps
-
-
 @timeit
 def solve_maze_stack(maze):
     stack = [(0, 0)]
