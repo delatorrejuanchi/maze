@@ -99,7 +99,7 @@ Por último, noté que mi algoritmo tenía una pequeña desventaja. La prioridad
 > 0 1 1 1 0\
 > 0 0 0 0 0
 
-El recorrido que encuentra es:
+El recorrido que encontraba era:
 
 > \+ 0 0 \+ \+\
 > \+ 1 1 1 \+\
@@ -107,7 +107,7 @@ El recorrido que encuentra es:
 > \+ 1 1 1 \+\
 > \+ \+ \+ \+ \+
 
-Por lo tanto, devuelve:
+Por lo tanto, devolvía:
 
 > [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (3, 4), (2, 4), (1, 4), (0, 4), (0, 3)]
 
