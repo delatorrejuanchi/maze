@@ -1,6 +1,9 @@
 import sys
 from util import display_maze, timeit
 
+# TODO: write examples
+# TODO: write tests
+
 # Modo de uso:
 # - python solve-maze.py [laberinto.txt]
 
