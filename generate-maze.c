@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// TODO: write comments
+// TODO: refactor, limit size and number of walls
+// TODO: add checks to ensure objectiveRow and objectiveCol are valid
+// TODO: rename objective to goal
+
 int main(int argc, char const *argv[]) {
   if (argc != 3) {
-    printf("Error: el número de argumentos ingresados es incorrecto.\n");
-    printf("Formato correcto: %s input.txt output.txt\n", argv[0]);
+    printf("Error: El número de argumentos ingresados es incorrecto.\n");
+    printf("Modo de uso: %s [archivo-de-entrada.txt] [archivo-de-salida.txt]\n", argv[0]);
     return -1;
   }
 
@@ -12,7 +17,7 @@ int main(int argc, char const *argv[]) {
   inputFile = fopen(argv[1], "r");
 
   if (inputFile == NULL) {
-    printf("El archivo %s no existe!\n", argv[1]);
+    printf("Error: El archivo %s no existe!\n", argv[1]);
     return -1;
   }
 
