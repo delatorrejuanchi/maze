@@ -136,7 +136,7 @@ Y devuelve:
 
 > [(0, 0), (0, 1), (0, 2), (0, 3)]
 
-Aunque tiene un menor rendimiento (excepto en casos excepcionales como el mencionado), consideré razonable a esta modificación asique la incluí en la versión final. Si un mayor rendimiento es necesario, siempre es posible reemplazar la llamada de `sorted_neighbors` por `neighbors` y así volver a `solve_maze_dumb`.
+Aunque tiene un menor rendimiento (excepto en casos excepcionales como el mencionado), consideré razonable a esta modificación asique la incluí en la versión final. Si un mayor rendimiento es necesario, siempre es posible reemplazar la llamada de `sorted_neighbors` por `neighbors` y comentar el llamado a `find_goal` para así volver a `solve_maze_dumb`.
 
 A continuación se presenta una tabla con las estadísticas de rendimiento de cada implementación. Se corrió cada implementación 100 veces en cada laberinto y se calculó el rendimiento promedio.
 
