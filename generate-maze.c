@@ -25,7 +25,6 @@
 //
 // No es necesario que el archivo de salida exista con anterioridad.
 
-
 // Se representa un laberinto con una int[15][15] (ya que ese es el máximo tamaño establecido) junto con dos enteros
 // entre 0 y 15 (nRows y nCols) que determinan el tamaño real del mismo.
 // Para todo i entre 0 y nRows, y todo j entre 0 y nCols:
@@ -40,10 +39,10 @@
 // La segunda fila contiene las coordenadas del objetivo.
 // El resto de las filas (máximo 20) contiene las coordenadas de las paredes.
 
-// loadCoordinates: int[] int[22][2] -> int
+// loadCoordinates: char[] int[22][2] -> int
 // Recibe el nombre del archivo a leer y una lista de coordenadas,
-// Escribe las coordenadas presentes en el archivo a la lista de coordenadas (máximo 22),
-// Si el archivo existe, devuelve la cantidad de coordenadas leídas (entre 0 y 22). Si no, devuelve -1.
+// Si el archivo existe, escribe las coordenadas presentes en el archivo a la lista de coordenadas (máximo 22) y
+// devuelve la cantidad de coordenadas leídas (entre 0 y 22). Si no, devuelve -1.
 // Ejemplos:
 // Entrada: filename[]="input.txt", coordinates[22][2]={ ... }; Salida: #cantidad-de-coordenadas-leidas
 // Entrada: filename[]="archivo-no-existente.txt", coordinates[22][2]={ ... }; Salida: -1
