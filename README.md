@@ -59,8 +59,8 @@ La función `solve_maze` utiliza un algoritmo similar al de DFS (depth-first sea
 >   - `maze[i][j] == 2` representa el objetivo.
 >   - `maze[i][j] == -1` representa una posición que ya ha sido visitada.
 >
-> - Se inicializa una pila (`stack`) que contiene la esquina superior izquierda del laberinto `(0, 0)` *Se representa una pila con una `list[tuple(int, int)]`*
-> - Se inicializa una lista vacía de pasos (`steps`). *Se representa una lista de pasos con una `list[tuple(int, int)]`*
+> - Se inicializa una pila (`stack`) que contiene la esquina superior izquierda del laberinto `(0, 0)` *Se representa una pila con una `list(tuple(int, int))`*
+> - Se inicializa una lista vacía de pasos (`steps`). *Se representa una lista de pasos con una `list(tuple(int, int))`*
 > - Mientras que no se ha llegado al objetivo y todavía hay elementos en la pila:
 >   - Se retira (`pop`) una tupla de la pila
 >   - Si dicha tupla es `(-1, -1)`: quitamos el último elemento de la lista de pasos.
@@ -142,9 +142,9 @@ A continuación se presenta una tabla con las estadísticas de rendimiento de ca
 
 | Implementación           | maze-10x10.txt | maze-30x30.txt | maze-50x50.txt | maze-100x100.txt | maze-1000x1000.txt |
 | ------------------------ |:-------------: |:--------------:|:--------------:|:----------------:|:------------------:|
-| **solve_maze** (*final*) | 0.82 ms        | 1.38 ms        | 6.86 ms        | 14.95 ms         | 765.63 ms          |
-| **solve_maze_dumb**      | 0.15 ms        | **0.66 ms**    | 3.11 ms        | **5.79 ms**      | **312.18 ms**      |
 | **solve_maze_recursive** | **0.07 ms**    | 0.81 ms        | **2.34 ms**    | -                | -                  |
+| **solve_maze_dumb**      | 0.15 ms        | **0.66 ms**    | 3.11 ms        | **5.79 ms**      | **312.18 ms**      |
 | **solve_maze_BFS**       | 0.19 ms        | 1.25 ms        | 6.44 ms        | 18.26 ms         | 1073.89 ms         |
+| **solve_maze** (*final*) | 0.82 ms        | 1.38 ms        | 6.86 ms        | 14.95 ms         | 765.63 ms          |
 
 ![statistics.png](statistics.png)
