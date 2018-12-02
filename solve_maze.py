@@ -1,11 +1,8 @@
 import sys
 from util import display_maze, timeit
 
-# TODO: write examples
-# TODO: write tests
-
 # Modo de uso:
-# - python solve-maze.py [laberinto.txt]
+# - python solve_maze.py [laberinto.txt]
 
 # El archivo a recibir debe contener un laberinto de la forma:
 #   0100010001
@@ -34,8 +31,8 @@ from util import display_maze, timeit
 # - maze[i][j] == -1 representa una posición que ya ha sido visitada.
 # Por ejemplo:
 # maze = [[0, 0, 2, 0],
-#         [0, 1, 1, 0]
-#         [0, 1, 1, 0]
+#         [0, 1, 1, 0],
+#         [0, 1, 1, 0],
 #         [0, 0, 0, 0]]
 
 # Se representa una lista de pasos con una list[tuple(int, int)].
@@ -46,13 +43,28 @@ from util import display_maze, timeit
 
 # read_maze: str -> list(list(int))
 # Recibe el nombre de un archivo,
-# Devuelve el laberinto que este representa.
+# Devuelve el laberinto que este representa. Si se produce algún error (el
+# archivo no existe o el formato del archivo es incorrecto), devuelve [[-1]].
+# Ejemplos:
+# Entrada: filename="output.txt"; Salida: [[0, 1, 1, 2],
+#                                          [0, 1, 1, 0],
+#                                          [0, 1, 1, 0],
+#                                          [0, 0, 0, 0]]
+# Entrada: filename="archivo-inexistente.txt"; Salida: [[-1]]
 def read_maze(filename):
     print("Leyendo laberinto desde {0}".format(filename))
 
-    file = open(filename, "r")
-    maze = [[int(n) for n in line.strip()] for line in file.readlines()]
-    file.close()
+    try:
+        file = open(filename, "r")
+        maze = [[int(n) for n in line.strip()] for line in file.readlines()]
+        file.close()
+    except FileNotFoundError:
+        print("Error: El archivo {0} no existe.".format(filename))
+        maze = [[-1]]
+    except:
+        print("Error: Se ha producido un error tratando de leer el laberinto.")
+        print("Verifique que el archivo respeta el formato establecido.")
+        maze = [[-1]]
 
     return maze
 
@@ -60,7 +72,10 @@ def read_maze(filename):
 # neighbors: int int -> list(tuple(int, int))
 # Recibe dos enteros que representan una posición en el laberinto,
 # Devuelve una lista con sus 4 "vecinos" (las posiciones a su derecha,
-# izquierda, arriba y abajo)
+# izquierda, arriba y abajo).
+# Ejemplos:
+# Entrada: row=10, col=5; Salida: [(10, 4), (9, 5), (10, 6), (11, 5)]
+# Entrada: row=0, col=0; Salida: [(0, -1), (-1, 0), (0, 1), (1, 0)]
 def neighbors(row, col):
     return [(row, col - 1), (row - 1, col), (row, col + 1), (row + 1, col)]
 
@@ -68,14 +83,24 @@ def neighbors(row, col):
 # sorted_neighbors: int int tuple(int, int) -> list(tuple(int, int))
 # Recibe dos enteros que representan una posición en el laberinto y la posición
 # del objetivo,
-# Devuelve una lista con sus 4 "vecinos" ordenados en orden ascendiente con
+# Devuelve una lista con sus 4 "vecinos" ordenados en orden descendiente con
 # respecto a la distancia de cada uno al objetivo.
+# Ejemplos:
+# Entrada: row=1,                ┐
+#          col=0,                ├-> Salida: [(0, 0), (1, -1), (1, 1), (2, 0)]
+#          goal_position=(3, 3); ┘
+# Entrada: row=3,                ┐
+#          col=5,                ├-> Salida: [(3, 4), (2, 5), (4, 5), (3, 6)]
+#          goal_position=(9, 7); ┘
 def sorted_neighbors(row, col, goal_position):
 
     # distance_to_goal: tuple(int, int) -> int
     # Recibe una posición en el laberinto,
     # Devuelve el mínimo entre la distancia en columnas y filas que hay entre
-    # la posición y el objetivo.
+    # la posición y el objetivo (ubicado en goal_position).
+    # Ejemplos: (con goal_position=(9, 9))
+    # Entrada: (0, 0); Salida: 9
+    # Entrada: (7, 3); Salida: 2
     def distance_to_goal(position):
         return min(abs(position[0] - goal_position[0]),
                    abs(position[1] - goal_position[1]))
@@ -86,6 +111,15 @@ def sorted_neighbors(row, col, goal_position):
 # find_goal: list(list(int)) -> tuple(int, int)
 # Recibe un laberinto,
 # Devuelve la posición en la que se encuentra el objetivo.
+# Ejemplos:
+# Entrada: maze=[[0, 0, 2, 0], ┐
+#                [0, 1, 1, 0], ├-> Salida: (0, 2)
+#                [0, 1, 1, 0], |
+#                [0, 0, 0, 0]] ┘
+# Entrada: maze=[[0, 0, 1], ┐
+#                [1, 0, 1], ├-> Salida: (3, 0)
+#                [1, 0, 1], |
+#                [2, 0, 1]] ┘
 def find_goal(maze):
     return [(i, j) for i in range(len(maze)) for j in range(len(maze[0]))
             if maze[i][j] == 2][0]
@@ -93,8 +127,22 @@ def find_goal(maze):
 
 # solve_maze: list(list(int)) -> list(tuple(int, int))
 # Recibe un laberinto,
-# Devuelve una lista de pasos que llevan al objetivo del laberinto.
+# Devuelve una lista de pasos que llevan al objetivo del laberinto. Si no tiene
+# solución, devuelve una lista vacía.
 # Para más información acerca de esta función, ver README.pdf
+# Ejemplos:
+# Entrada: maze=[[0, 0, 2, 0], ┐
+#                [0, 1, 1, 0], ├-> Salida: [(0, 0), (0, 1), (0, 2)]
+#                [0, 1, 1, 0], |
+#                [0, 0, 0, 0]] ┘
+# Entrada: maze=[[0, 1, 1, 1], ┐           [(0, 0), (1, 0), (2, 0),
+#                [0, 1, 1, 2], ├-> Salida:  (3, 0), (3, 1), (3, 2),
+#                [0, 1, 1, 0], |            (3, 3), (2, 3), (1, 3))]
+#                [0, 0, 0, 0]] ┘
+# Entrada: maze=[[0, 1, 0, 0], ┐
+#                [1, 1, 0, 0], ├-> Salida: []
+#                [0, 0, 0, 0], |
+#                [0, 0, 0, 2]] ┘
 @timeit
 def solve_maze(maze):
     goal_position = find_goal(maze)
@@ -132,6 +180,9 @@ if __name__ == "__main__":
     maze_file = sys.argv[1]
 
     maze = read_maze(maze_file)
+    if maze == [[-1]]:
+        sys.exit(-1)
+
     steps = solve_maze(maze)
 
     if steps:

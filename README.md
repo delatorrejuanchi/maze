@@ -20,21 +20,23 @@ Por ejemplo: *(archivo-de-entrada.txt)*
 > 2 1\
 > 0 2\
 > 1 2\
-> 2 2
+> 2 2\
+>
 
 Genera: *(archivo-de-salida.txt)*
 
 > 0112\
 > 0110\
 > 0110\
-> 0000
+> 0000\
+>
 
 No es necesario que el archivo de salida exista con anterioridad.
 
-### solve-maze.py
+### solve_maze.py
 
 Modo de uso:
-- `python solve-maze.py [laberinto.txt]`
+- `python solve_maze.py [laberinto.txt]`
 
 El archivo a recibir debe contener un laberinto de la forma:
 
@@ -47,7 +49,8 @@ El archivo a recibir debe contener un laberinto de la forma:
 > 0101010101\
 > 0101010101\
 > 0101010101\
-> 0001000102
+> 0001000102\
+>
 
 Los 0 representan posiciones vacías, los 1 paredes y el 2 representa el objetivo. El laberinto puede tener tantas filas y columnas como se desee.
 
