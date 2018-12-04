@@ -50,6 +50,7 @@ def display_maze(maze, steps):
 # - "+" de color verde si la posición pertenece a la lista de pasos
 # - "0" de color azul si en la posición hay un -1
 # - "0" de color blanco si en la posición hay un 0
+# - "2" de color amarillo si en la posición hay un 2
 # - "1" de color rojo si no se cumplió ninguna de las condiciones anteriores
 # Ejemplos:
 # Entrada: maze=[[0, 1, 1, 1],              ┐
@@ -67,5 +68,7 @@ def colourful(maze, steps, row, col):
         return colored("0", color="blue")
     elif maze[row][col] == 0:
         return colored("0", color="white")
+    elif maze[row][col] == 2:
+        return colored("2", color="yellow")
     else:
         return colored("1", color="red")

@@ -73,56 +73,18 @@ def read_maze(filename):
 # Recibe dos enteros que representan una posición en el laberinto,
 # Devuelve una lista con sus 4 "vecinos" (las posiciones a su derecha,
 # izquierda, arriba y abajo).
+# El orden en que devuelve los vecinos es importante: IZQUIERDA, ARRIBA,
+# DERECHA, ABAJO. Elegí este orden ya que la función solve_maze retira el
+# último elemento de la pila (stack) en cada iteración, por lo cual este orden
+# lleva a que primero se explore hacia ABAJO, luego DERECHA, luego ARRIBA y por
+# último IZQUIERDA. Podría haberse establecido un orden distinto, pero como se
+# comienza el laberinto en la esquina superior izquierda  (0, 0), tiene sentido
+# buscar el objetivo tratando de alejarse del origen.
 # Ejemplos:
 # Entrada: row=10, col=5; Salida: [(10, 4), (9, 5), (10, 6), (11, 5)]
 # Entrada: row=0, col=0; Salida: [(0, -1), (-1, 0), (0, 1), (1, 0)]
 def neighbors(row, col):
     return [(row, col - 1), (row - 1, col), (row, col + 1), (row + 1, col)]
-
-
-# sorted_neighbors: int int tuple(int, int) -> list(tuple(int, int))
-# Recibe dos enteros que representan una posición en el laberinto y la posición
-# del objetivo,
-# Devuelve una lista con sus 4 "vecinos" ordenados en orden descendiente con
-# respecto a la distancia de cada uno al objetivo.
-# Ejemplos:
-# Entrada: row=1,                ┐
-#          col=0,                ├-> Salida: [(0, 0), (1, -1), (1, 1), (2, 0)]
-#          goal_position=(3, 3); ┘
-# Entrada: row=3,                ┐
-#          col=5,                ├-> Salida: [(3, 4), (2, 5), (4, 5), (3, 6)]
-#          goal_position=(9, 7); ┘
-def sorted_neighbors(row, col, goal_position):
-
-    # distance_to_goal: tuple(int, int) -> int
-    # Recibe una posición en el laberinto,
-    # Devuelve el mínimo entre la distancia en columnas y filas que hay entre
-    # la posición y el objetivo (ubicado en goal_position).
-    # Ejemplos: (con goal_position=(9, 9))
-    # Entrada: (0, 0); Salida: 9
-    # Entrada: (7, 3); Salida: 2
-    def distance_to_goal(position):
-        return min(abs(position[0] - goal_position[0]),
-                   abs(position[1] - goal_position[1]))
-
-    return sorted(neighbors(row, col), key=distance_to_goal, reverse=True)
-
-
-# find_goal: list(list(int)) -> tuple(int, int)
-# Recibe un laberinto,
-# Devuelve la posición en la que se encuentra el objetivo.
-# Ejemplos:
-# Entrada: maze=[[0, 0, 2, 0], ┐
-#                [0, 1, 1, 0], ├-> Salida: (0, 2)
-#                [0, 1, 1, 0], |
-#                [0, 0, 0, 0]] ┘
-# Entrada: maze=[[0, 0, 1], ┐
-#                [1, 0, 1], ├-> Salida: (3, 0)
-#                [1, 0, 1], |
-#                [2, 0, 1]] ┘
-def find_goal(maze):
-    return [(i, j) for i in range(len(maze)) for j in range(len(maze[0]))
-            if maze[i][j] == 2][0]
 
 
 # solve_maze: list(list(int)) -> list(tuple(int, int))
@@ -145,7 +107,6 @@ def find_goal(maze):
 #                [0, 0, 0, 2]] ┘
 @timeit
 def solve_maze(maze):
-    goal_position = find_goal(maze)
     stack = [(0, 0)]
     steps = []
     done = False
@@ -161,7 +122,7 @@ def solve_maze(maze):
                 maze[row][col] = -1
 
                 stack.append((-1, -1))
-                for neighbor in sorted_neighbors(row, col, goal_position):
+                for neighbor in neighbors(row, col):
                     stack.append(neighbor)
 
             elif maze[row][col] == 2:
