@@ -85,10 +85,11 @@ El algoritmo final no fue el mismo que el inicial. En el desarrollo de este Trab
 Inicialmente, el algoritmo funcionaba muy parecido a la versión final pero era recursivo. Sin embargo lo descarté rápidamente porque para laberintos grandes (por ejemplo con *maze-100x100.txt* y *maze-1000x1000.txt*), llegaba al límite de recursividad establecido por Python.
 
 ##### solve_maze (final)
-Por eso decidí repensar el algoritmo y eliminar la dependencia en la recursividad. Escribí una nueva versión (que resultó ser la final), y al comparar el rendimiento contra `solve_maze_recursive`, excepto para *maze-10x10.txt* y *maze-50x50.txt*.
+Por eso decidí repensar el algoritmo y eliminar la dependencia en la recursividad. Escribí una nueva versión (que resultó ser la final), cuyos tiempos de ejecución eran similares a los de `solve_maze_recursive` (sorprendente, solo mejoraron en *maze-30x30.txt* mientras que para *maze-10x10.txt* y *maze-50x50.txt* empeoraron). Sin embargo,
+esta nueva versión permite resolver laberintos arbitrariamente grandes al no ser recursivo.
 
 ##### solve_maze_BFS
-Luego, comencé a investigar como mejorar el rendimiento de `solve_maze_dumb`. Así fue como encontré referencias a BFS (breadth-first search) y DFS (depth-first search), noté que mi algoritmo era parecido a un DFS y decidí probar con una implementación de BFS. Tuve que hacer algunas modificaciones para poder construir la lista de pasos, pero el principal cambio era cambiar la pila (`stack`) por una cola (`queue`). Esta versión resultó ser más lenta que `solve_maze`, por lo que también la descarté rapidamente.
+Luego, comencé a investigar como mejorar el rendimiento de `solve_maze`. Así fue como encontré referencias a BFS (breadth-first search) y DFS (depth-first search), noté que mi algoritmo era parecido a uno de DFS y decidí probar con una implementación de BFS. Tuve que hacer algunas modificaciones para poder construir la lista de pasos, pero el principal cambio era cambiar la pila (`stack`) por una cola (`queue`). Esta versión resultó ser más lenta que `solve_maze`, por lo que también la descarté rapidamente.
 
 ##### solve_maze_smart
 Por último, noté que mi algoritmo tenía una pequeña desventaja. La prioridad que establecí para el orden en que se recorren los vecinos era ABAJO-DERECHA-ARRIBA-IZQUIERDA. Si el laberinto era algo como:
@@ -136,7 +137,12 @@ Y devolvía:
 
 > [(0, 0), (0, 1), (0, 2), (0, 3)]
 
-Sin embargo, debido a que esta versión corría más lento (excepto en algunos casos excepcionales como el mencionado), a que el enunciado del TP nunca mencionaba la tarea de encontrar el camino más corto y a que, de todas formas, esta modificación no aseguraba que se iba a tomar el camino más corto, decidí no incluir esta modificación en la versión final.
+Sin embargo:
+- Esta versión corría más lento (excepto en algunos casos excepcionales como el mencionado)
+- El enunciado del TP nunca mencionaba la tarea de encontrar el camino más corto
+- De todas formas, esta modificación no aseguraba que se iba a tomar el camino más corto
+
+Por estas razones decidí no incluir esta modificación en la versión final.
 
 A continuación se presenta una tabla con las estadísticas de rendimiento de cada implementación. Se corrió cada implementación 100 veces en cada laberinto y se calculó el tiempo de ejecución promedio.
 
