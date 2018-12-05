@@ -147,4 +147,6 @@ A continuación se presenta una tabla con las estadísticas de rendimiento de ca
 | **solve_maze_BFS**       | 0.19 ms        | 1.25 ms        | 6.44 ms        | 18.26 ms         | 1073.89 ms         |
 | **solve_maze_smart**     | 0.82 ms        | 1.38 ms        | 6.86 ms        | 14.95 ms         | 765.63 ms          |
 
+También presento la información visualmente con el siguiente gráfico. Tener en cuenta que el eje vertical usa una escala logarítmica debido a la gran variación entre los tiempos de ejecución de *maze-10x10.txt* y *maze-1000x1000.txt*.
+
 ![statistics.png](statistics.png)
