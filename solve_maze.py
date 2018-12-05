@@ -3,7 +3,6 @@ from util import display_maze, timeit
 
 # Modo de uso:
 # - python solve_maze.py [laberinto.txt]
-
 # El archivo a recibir debe contener un laberinto de la forma:
 #   0100010001
 #   0101010101

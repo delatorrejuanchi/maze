@@ -47,6 +47,14 @@ def test_solve_maze():
                (2, 6), (1, 6), (0, 6), (0, 7), (0, 8), (1, 8), (2, 8), (3, 8),
                (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (9, 9)]
 
+    maze_4 = [[0, 1, 0, 0, 0],
+              [0, 1, 0, 0, 0],
+              [1, 1, 0, 0, 2],
+              [0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0]]
+    steps_4 = []
+
     assert(solve_maze(maze_1) == steps_1)
     assert(solve_maze(maze_2) == steps_2)
     assert(solve_maze(maze_3) == steps_3)
+    assert(solve_maze(maze_4) == steps_4)

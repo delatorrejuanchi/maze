@@ -1,5 +1,5 @@
 # Maze (Trabajo Práctico Final - Programación 2)
-## Juan Cruz de La Torre - (LCC: D-4103/3 / LF: D-4104/1)
+## Juan Cruz de La Torre - (LCC: D-4103/3, LF: D-4104/1)
 
 ### generate-maze.c
 
@@ -8,8 +8,8 @@ Modo de uso:
 
 El archivo de entrada debe tener el siguiente formato:
 - La primer línea expresa las dimensiones del laberinto separadas por un espacio (máximo: 15 15)
-- La segunda línea expresa las coordenadas del objetivo separadas por un espacio (máximo: 20 20)
-- El resto de las líneas expresan las coordenadas de las paredes separadas un espacio (máximo 20 líneas)
+- La segunda línea expresa las coordenadas del objetivo separadas por un espacio (entre 0 0 y 14 14)
+- El resto de las líneas expresan las coordenadas de las paredes separadas un espacio (máximo: 20 líneas)
 
 Por ejemplo: *(archivo-de-entrada.txt)*
 
@@ -60,7 +60,7 @@ La función `solve_maze` utiliza un algoritmo similar al de DFS (depth-first sea
 >   - `maze[i][j] == -1` representa una posición que ya ha sido visitada.
 >
 > - Se inicializa una pila (`stack`) que contiene la esquina superior izquierda del laberinto `(0, 0)` *Se representa una pila con una `list(tuple(int, int))`*
-> - Se inicializa una lista vacía de pasos (`steps`). *Se representa una lista de pasos con una `list(tuple(int, int))`*
+> - Se inicializa una lista de pasos (`steps`) vacía. *Se representa una lista de pasos con una `list(tuple(int, int))`*
 > - Mientras que no se ha llegado al objetivo y todavía hay elementos en la pila:
 >   - Se retira (`pop`) una tupla de la pila
 >   - Si dicha tupla es `(-1, -1)`: quitamos el último elemento de la lista de pasos.
