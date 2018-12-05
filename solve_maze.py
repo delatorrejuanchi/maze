@@ -15,6 +15,7 @@ from util import display_maze, timeit
 #   0101010101
 #   0101010101
 #   0001000102
+#
 # Los 0 representan posiciones vacías, los 1 paredes y el 2 representa el
 # objetivo. El laberinto puede tener tantas filas y columnas como se desee.
 
@@ -35,8 +36,10 @@ from util import display_maze, timeit
 #         [0, 1, 1, 0],
 #         [0, 0, 0, 0]]
 
-# Se representa una lista de pasos con una list[tuple(int, int)].
+# Se representa una lista de pasos con una list(tuple(int, int)).
 # Cada tuple(int, int) representa una posición dentro del laberinto.
+# Las listas de pasos representan las posiciones por las que hay que pasar
+# para llegar desde la posición inicial (0, 0) hasta el objetivo.
 # Por ejemplo:
 # steps = [(0, 0), (0, 1), (0, 2)]
 
@@ -112,21 +115,21 @@ def solve_maze(maze):
     done = False
 
     while not done and len(stack):
-        row, col = stack.pop()
+        current_row, current_col = stack.pop()
 
-        if row == -1 and col == -1:
+        if current_row == -1 and current_col == -1:
             steps.pop()
-        elif 0 <= row < len(maze) and 0 <= col < len(maze[0]):
-            if maze[row][col] == 0:
-                steps.append((row, col))
-                maze[row][col] = -1
+        elif 0 <= current_row < len(maze) and 0 <= current_col < len(maze[0]):
+            if maze[current_row][current_col] == 0:
+                steps.append((current_row, current_col))
+                maze[current_row][current_col] = -1
 
                 stack.append((-1, -1))
-                for neighbor in neighbors(row, col):
+                for neighbor in neighbors(current_row, current_col):
                     stack.append(neighbor)
 
-            elif maze[row][col] == 2:
-                steps.append((row, col))
+            elif maze[current_row][current_col] == 2:
+                steps.append((current_row, current_col))
                 done = True
 
     return steps
