@@ -47,11 +47,13 @@ def display_maze(maze, steps):
 # Recibe un laberinto, una lista de pasos, y dos enteros que representan una
 # posición en el laberinto,
 # Devuelve:
-# - "+" de color verde si la posición pertenece a la lista de pasos
-# - "0" de color azul si en la posición hay un -1
-# - "0" de color blanco si en la posición hay un 0
-# - "2" de color amarillo si en la posición hay un 2
-# - "1" de color rojo si no se cumplió ninguna de las condiciones anteriores
+# - Si la posición pertenece a la lista de pasos:
+#   - "+" de color amarillo si es el objetivo
+#   - "+" de color verde en caso contrario
+# - En caso contrario:
+#   - "-" de color azul si en la posición hay un -1
+#   - " " de color blanco si en la posición hay un 0
+#   - "■" de color rojo si no se cumplió ninguna de las condiciones anteriores
 # Ejemplos:
 # Entrada: maze=[[0, 1, 1, 1],              ┐
 #                [0, 1, 1, 2],              |
@@ -61,14 +63,25 @@ def display_maze(maze, steps):
 #                 (3, 0), (3, 1), (3, 2),   |
 #                 (3, 3), (2, 3), (1, 3))], |
 #          row=3, col=3;                    ┘
+# Entrada: maze=[[0, 1, 1, 1],              ┐
+#                [0, 1, 1, 2],              |
+#                [0, 1, 1, 0],              |
+#                [0, 0, 0, 0]],             ├-> Salida: "+" (de color amarillo)
+#          steps=[(0, 0), (1, 0), (2, 0),   |
+#                 (3, 0), (3, 1), (3, 2),   |
+#                 (3, 3), (2, 3), (1, 3))], |
+#          row=1, col=3;                    ┘
 def colourful(maze, steps, row, col):
     if (row, col) in steps:
-        return colored("+", color="green")
-    elif maze[row][col] == -1:
-        return colored("0", color="blue")
-    elif maze[row][col] == 0:
-        return colored("0", color="white")
-    elif maze[row][col] == 2:
-        return colored("2", color="yellow")
+        if maze[row][col] == 2:
+            return colored("+", color="yellow")
+        else:
+            return colored("+", color="green")
     else:
-        return colored("1", color="red")
+        if maze[row][col] == -1:
+            return colored("-", color="blue")
+        if maze[row][col] == 0:
+            return colored(" ", color="white")
+        if maze[row][col] == 2:
+            return colored("+", color="yellow")
+        return colored("■", color="red")

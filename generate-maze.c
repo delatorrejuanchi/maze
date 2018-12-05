@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 // Modo de uso:
 // - ./generate-maze [archivo-de-entrada.txt] [archivo-de-salida.txt]
@@ -108,7 +109,7 @@ int areCoordinatesValid(int coordinates[22][2], int numCoordinates) {
   }
 
   if (numBadWalls) {
-    printf("Error: Las coordenadas de %d pared(es) es(son) inválida(s).\n", numBadWalls);
+    printf("Error: Las coordenadas de %d pared(es) son inválidas.\n", numBadWalls);
     return 0;
   }
 
@@ -159,7 +160,57 @@ void writeToFile(char filename[], int maze[15][15], int nRows, int nCols) {
   fclose(outputFile);
 }
 
+// runAsserts: -> void
+// Corre los casos de prueba
+void runAsserts() {
+  // no hay casos de prueba para loadCoordinates y writeToFile debido a que manejan archivos
+
+  // areCoordinatesValid(int coordinates[22][2], int numCoordinates) -> int
+  int coordinates[22][2];
+  coordinates[0][0] = -1, coordinates[0][1] = 10;
+
+  assert(areCoordinatesValid(coordinates, 1) == 0); // como mínimo deben estar presentes tamaño y posición del objetivo
+
+  coordinates[1][0] = 12, coordinates[1][1] = 9; // agregamos la posición del objetivo, pero
+  assert(areCoordinatesValid(coordinates, 2) == 0); // las dimensiones del laberinto deben ser positivas
+
+  coordinates[0][0] = 10; // corregimos las dimensiones del laberinto, pero
+  assert(areCoordinatesValid(coordinates, 2) == 0); // las coordenadas del objetivo son inválidas
+
+  coordinates[1][0] = 8; // corregimos las coordenadas del objetivo
+  assert(areCoordinatesValid(coordinates, 2) == 1); // esto debería funcionar!
+
+  coordinates[2][0] = 10, coordinates[2][1] = 5; // agregamos una pared en (10, 5), pero
+  assert(areCoordinatesValid(coordinates, 3) == 0); // las coordenadas de 1 pared son inválidas
+
+  coordinates[2][0] = 5; // corregimos las coordenadas de la pared, ahora está en (5, 5)
+  assert(areCoordinatesValid(coordinates, 3) == 1); // esto debería funcionar!
+
+  coordinates[3][0] = 1, coordinates[3][1] = 4; // agregamos una pared en (1, 4)
+  coordinates[4][0] = 3, coordinates[4][1] = 5; // agregamos una pared en (3, 5)
+  coordinates[5][0] = 6, coordinates[5][1] = 7; // agregamos una pared en (6, 7)
+  coordinates[6][0] = 1, coordinates[6][1] = 3; // agregamos una pared en (1, 3)
+  assert(areCoordinatesValid(coordinates, 7) == 1); // esto debería funcionar!
+
+  // updateMaze(int maze[15][15], int coordinates[22][2], int numCoordinates) -> void
+  int maze[15][15];
+
+  updateMaze(maze, coordinates, 2);
+  assert(maze[0][0] == 0); // la posición (0, 0) debería tener un 0
+  assert(maze[0][8] == 0); // la posición (0, 8) también debería tener un 0, etc.
+  assert(maze[8][9] == 2); // la posición (8, 9) debería tener un 2
+
+  updateMaze(maze, coordinates, 5);
+  assert(maze[5][5] == 1); // la posición (5, 5) debería tener un 1, etc.
+  assert(maze[1][4] == 1); // la posición (1, 4) también debería tener un 1
+  assert(maze[3][5] == 1); // la posición (3, 5) también debería tener un 1
+}
+
 int main(int argc, char *argv[]) {
+  // Por defecto, desactivo los tests para no confundir al usuario con los mensajes de error generados por las
+  // funciones testeadas
+  // runAsserts();
+
   if (argc != 3) {
     printf("Error: El número de argumentos ingresados es incorrecto.\n");
     printf("Modo de uso: %s [archivo-de-entrada.txt] [archivo-de-salida.txt]\n", argv[0]);
